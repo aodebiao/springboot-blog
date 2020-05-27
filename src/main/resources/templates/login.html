@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Go|登录</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="../static/images/favicon.ico" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" type="text/css" href="../static/semantic-ui/css/semantic.min.css"
+          th:href="@{/semantic-ui/css/semantic.min.css}">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="../static/semantic-ui/js/semantic.min.js" th:src="@{/semantic-ui/js/semantic.min.js}"></script>
+    <style>
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        body {
+            -ms-overflow-style: none;
+        }
+
+        html {
+            overflow: -moz-hidden-unscrollable;
+            /*注意！若只打 hidden，chrome 的其它 hidden 会出问题*/
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            width: calc(100vw + 18px);
+            /*浏览器滚动条的长度大约是 18px*/
+            overflow: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="ui container">
+    <div class="ui container pulse">
+        <div class="ui stackable grid">
+            <div class="five wide column"></div>
+
+            <div class="six wide column" style="margin-top: 1%;">
+                <h2 style="text-align: center;">登录</h2>
+                <div class="ui section divider"></div>
+
+                <div class="ui centered card" style="width: 100%;height: auto;">
+                    <img src="../static/images/head_login.jpg" th:src="@{/images/head_login.jpg}"
+                         style="width: 100%;height: 60%;">
+                    <div class="content" style="height: 55%;">
+                        <form class="ui form" onsubmit="return false;">
+                            <div class="field" style="margin-bottom: 20px;">
+                                <div class="ui left icon input">
+                                    <input type="text" class="" name="username" placeholder="用户名不是昵称！" onkeydown="login_key(event)">
+                                    <i class="left user icon"></i>
+                                </div>
+                            </div>
+                            <div class="field" style="margin-bottom: 15px;">
+                                <div class="ui left icon input">
+                                    <input type="password" class="" name="password" placeholder="输入密码！" onkeydown="login_key(event)">
+                                    <i class="left lock icon"></i>
+                                </div>
+                            </div>
+
+                            <div class="fields" style="margin-bottom: auto; width: 100%">
+                                <div class="field" style="width: 50%">
+                                    <div class="ui left icon input">
+                                        <input type="text" class="verifyCode" name="verifyCode" placeholder="输入验证码！" onkeydown="login_key(event)">
+                                        <i class="left paper plane outline icon"></i>
+                                    </div>
+                                </div>
+                                <div class="field" style="height: 38px; width: 50%">
+                                    <img alt="" class="verifyCode" src="/getVerifyCode" th:src="@{/getVerifyCode}"
+                                         onclick="changeCode()" style="width:100%; height:100%;">
+                                </div>
+                            </div>
+
+                            <div class="fields" style="margin-top: 10px;">
+                                <div class="field" style="text-align: left;width: 30%;">
+                                    <a href="javascript:" class="register-account" style="font-weight: 100;"
+                                       th:href="@{/user/toRegister}"><font
+                                            style="color: gray;">立即注册</font></a>
+                                </div>
+                                <div class="field" style="text-align: center;width: 40%;">
+                                    <a href="javascript:" class="register-account" style="font-weight: 100;"
+                                       th:href="@{/QQ/qqlogin}"><i class="circular grey qq icon"></i></a>
+
+                                </div>
+
+                                <div class="field" style="text-align: right;width: 30%;">
+                                    <a href="javascript:" class="class" style="font-weight: 100;"
+                                       th:href="@{/user/goFindUser}"><font
+                                            style="color: gray;">忘记密码</font></a>
+                                </div>
+                            </div>
+                            <div class="ui error message"></div>
+                            <div style="text-align: center; margin-top: 10px;">
+                                <button class="ui basic button" type="button" onclick="login_user()" onkeydown="login_key(event)">登录</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="five wide column"></div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $('.ui.form').form({
+        fields: {
+            username: {
+                identifier: 'username',
+                rules: [{
+                    type: 'regExp[/^[\u4e00-\u9fa5]{2,5}$/]',
+                    prompt: '用户名格式不对！'
+                }]
+            },
+            password: {
+                identifier: 'password',
+                rules: [{
+                    type: 'regExp[/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,10}$/]',
+                    prompt: '密码格式不对！'
+                }]
+            },
+            verifyCode: {
+                identifier: 'verifyCode',
+                rules: [{
+                    type: 'regExp[/^[A-Za-z0-9]{4}$/]',
+                    prompt: '验证码格式有误！'
+                }]
+            }
+        }
+    })
+
+    function changeCode() {
+        var src = "/getVerifyCode?" + new Date().getTime(); //加时间戳，防止浏览器利用缓存
+        $('.verifyCode').attr("src", src);                  //jQuery写法
+    }
+
+    function login_user() {
+        $('.ui.basic.button').submit();
+        if ($('.ui.form').form('is valid')) {
+            $.post("/user/login",
+                $('.ui.form').serialize(),
+                function (res) {
+                    console.log("2222222222")
+                    if (!res.success) {
+                        console.log(res.message)
+                        $('.ui.error.message').empty();
+                        $('.ui.form').removeClass('success');
+                        $('.ui.form').addClass('error');
+                        $('.verifyCode').val('')
+                        $('.ui.error.message').append("<ul class='list'><li class='li'></li></ul>");
+                        $('.li').append(res.message)
+                        changeCode();
+                    } else {
+                        window.location.href = "/"
+                    }
+                }, "json");
+        }
+    }
+
+
+    function login_key(event) {
+        if (event.keyCode == 13) {
+            login_user();  //
+            event.preventDefault();//阻止默认行为，不然好像触发按钮的点击事件
+        }
+    }
+</script>
+</body>
+
+
+</body>
+
+</html>

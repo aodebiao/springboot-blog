@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>GO|注册</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="../static/images/favicon.ico" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" type="text/css" href="../static/semantic-ui/css/semantic.min.css"
+          th:href="@{/semantic-ui/css/semantic.min.css}">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="../static/semantic-ui/js/semantic.min.js" th:src="@{/semantic-ui/js/semantic.min.js}"></script>
+</head>
+
+
+<body>
+
+<div class="ui container">
+    <div class="ui container pulse">
+        <div class="ui stackable grid">
+            <div class="five wide column"></div>
+
+            <div class="six wide column" style="margin-top: 1%;">
+                <h2 style="text-align: center;">注册</h2>
+                <div class="ui section divider"></div>
+
+                <div class="ui centered card" style="width: 100%;height: auto;">
+                    <img src="../static/images/avatar(1).jpg" th:src="@{/images/avatar(1).jpg}" class="" alt="" style="width: 100%;height: 10%;">
+                    <div class="content" style="height: 55%;">
+                        <form action="" onsubmit="return false;" class="ui form">
+                            <div class="field" style="margin-bottom: 20px;">
+                                <div class="ui left icon input">
+                                    <input type="text" class="" name="username" placeholder="输入用户名！2-5个汉字。">
+                                    <i class="left user icon"></i>
+                                </div>
+                            </div>
+                            <div class="field" style="margin-bottom: 15px;">
+                                <div class="ui left icon input">
+                                    <input type="text" class="" name="nickname"
+                                           placeholder="昵称，2-8个字符，可以有中文，英文，下划线。">
+                                    <i class="left meh outline icon"></i>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="ui left icon input">
+                                    <input type="password" class="" name="password"
+                                           placeholder="长度6-10位，须同时包含字母和数字。">
+                                    <i class="left lock icon"></i>
+                                </div>
+                            </div>
+                            <div class="field" style="height: 38px;">
+                                <div class="ui left icon input">
+                                    <input type="password" class="" name="check_password" placeholder="和上面一样！">
+                                    <i class="left lock icon"></i>
+                                </div>
+                            </div>
+
+                            <div class="fields" style="margin-bottom: 14px; width: 100%">
+                                <div class="field" style="width: 75%">
+                                    <div class="ui left icon input">
+                                        <input type="url" class="" name="avatar" placeholder="头像地址">
+                                        <i class="left paperclip icon"></i>
+                                    </div>
+                                </div>
+                                <div class="field" style="width: 25%;">
+                                    <div class="ui basic button" name="avatar-help" onclick="help()" style="width:100%;padding-right: 2px;padding-left: 2px;margin-top: 1px;">帮助</div>
+                                </div>
+                            </div>
+
+                            <div class="field" style="height: 38px;">
+                                <div class="ui left icon input">
+                                    <input type="email" class="" name="email" placeholder="输入邮箱！注册成功不可修改，用于密码找回。">
+                                    <i class="left envelope outline icon"></i>
+                                </div>
+                            </div>
+                            <div class="fields" style="margin-bottom: 14px; width: 100%;">
+                                <div class="verificationCode field" style="width: 45%;">
+                                    <div class="ui left icon input">
+                                        <input type="text" class="" name="verificationCode" placeholder="输入验证码！">
+                                        <i class="left paper plane outline icon"></i>
+                                    </div>
+                                </div>
+                                <div class="field" style="height: 38px; width: 54%;">
+                                    <div alt="" class="ui basic button Go getVerifyCode" id="send-email"
+                                         th:attr="data-flag = true" style="color: black;width: 100%;"
+                                         data-flag="true">获取邮箱验证码</div>
+                                </div>
+                            </div>
+
+                            <div class="inline fields">
+                                <label for="" style="color: gray;margin-left: 4px;font-weight: 100;">性别</label>
+                                <div class="field" style="width: 40%;text-align: right;">
+                                    <div class="ui radio checkbox">
+                                        <input type="radio" name="gender" id="" value="1" checked="checked">
+                                        <label for=""style="font-weight: 100;" >男</label>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <div class="ui radio checkbox">
+                                        <input type="radio" name="gender" value="0" id="">
+                                        <label for=""style="font-weight: 100;">女</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="fields" style="margin-top: 10px;">
+                                <div class="field" style="text-align: left;width: 30%;">
+                                    <a href="javascript:" class="register-account" style="font-weight: 100;" th:href="@{/user/toLogin}">
+                                        <font style="color: gray;">马上登录</font>
+                                    </a>
+                                </div>
+                                <div class="field" style="text-align: right;width: 70%;">
+                                    <a href="javascript:" class="class" style="font-weight: 100;" th:href="@{/user/goFindUser}">
+                                        <font style="color: gray;">忘记密码</font>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ui error message"></div>
+                            <div style="text-align: center; margin-top: 10px;">
+                                <button class="ui basic button" type="button">注册</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="five wide column"></div>
+
+        </div>
+
+    </div>
+</div>
+<div class="ui longer test modal scrolling transition ">
+    <div class="header">
+        帮&nbsp;&nbsp;&nbsp;助
+    </div>
+    <div class="ui wireframe image content">
+        <div class="ui medium" style="width: 85%; !important;">
+            <div class="ui medium image" style="width: 100%; !important;">
+                <img src="../static/images/help.png" th:src="@{/images/help.png}">
+            </div>
+
+            <div class="ui medium image" style="width: 100%; !important;">
+                <img src="../static/images/help2.png" th:src="@{/images/help2.png}">
+            </div>
+        </div>
+
+        <div class="description" style="width: 15%;!important;">
+            <div class="ui header" style="width: 100%;!important;">
+                <font style="color: red">提 &nbsp;&nbsp;&nbsp; 示</font>
+            </div>
+            <p style="width: 100%;line-height: 30px;!important;">首先网上搜索一个免费的图床，这里提供一个&#8594;<a
+                    href="https://sm.ms/">
+                <font color="red" style="font-size: 20px"><b>点&nbsp;我</b></font>
+            </a>&#8592;
+                。 如左边所示，选择<b>Select Image(S)</b>上传本地图片，点击<b>Upload</b>上传。
+                <br>
+                上传成功之后从底部的<b>Preview</b>切换到<b>Image URL</b>，复制底部链接即可。
+            </p>
+        </div>
+
+
+    </div>
+    <div class="actions">
+        <div class="ui primary approve button">
+            知道了
+            <i class="right chevron icon"></i>
+        </div>
+    </div>
+</div>
+<div class="ui small modal" id="modal-message">
+    <div class="ui icon header">
+        <i class="bullhorn icon"></i>系统提示
+    </div>
+    <div class="content">
+        <p>注册成功,是否登录？</p>
+    </div>
+    <div class="actions">
+        <div class="ui red cancel inverted button">
+            <i class="remove icon"></i>
+            No
+        </div>
+        <div class="ui green ok inverted button">
+            <i class="checkmark icon"></i>
+            Yes
+        </div>
+    </div>
+</div>
+<script>
+    $('.ui.form').form({
+        fields: {
+            username: {
+                identifier: 'username',
+                rules: [{
+                    type: 'regExp[/^[\u4e00-\u9fa5]{2,5}$/]',
+                    prompt: '用户名格式不对！'
+                }]
+            },
+            nickname: {
+                identifier: 'nickname',
+                rules: [{
+                    type: 'regExp[/^[\u4e00-\u9fa5a-zA-Z0-9_-]{2,8}$/]',
+                    prompt: '昵称格式不对！'
+                }]
+            },
+            password: {
+                identifier: 'password',
+                rules: [{
+                    type: 'regExp[/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,10}$/]',
+                    prompt: '密码格式不对！'
+                }]
+            },
+            check_password: {
+                identifier: 'check_password',
+                rules: [{
+                    type: 'match[password]',
+                    prompt: '两次输入的密码不相等！'
+                }]
+            },
+            email: {
+                identifier: 'email',
+                rules: [{
+                    type: 'email',
+                    prompt: '邮箱格式有误！'
+                }]
+            },
+            verificationCode: {
+                identifier: 'verificationCode',
+                rules: [{
+                    type: 'regExp[/^[A-Za-z0-9]{6}$/]',
+                    prompt: '验证码格式有误！'
+                }]
+            },
+            avatar: {
+                identifier: 'avatar',
+                optional:true,//不为空时才校验
+                rules: [{
+                    type: 'url',
+                    prompt: '头像链接有误！'
+                }]
+            }
+        }
+    })
+
+    $('#send-email').click(function () {
+        $('.ui.form').submit();
+        $("#send-email").addClass('disabled');//点击之后禁用
+        if ($('.ui.form').form('is valid','email')) {
+            alert(3333)
+            $('.ui.form').removeClass('error');
+            $('.verificationCode.field').removeClass('error');
+            $('.ui.error.message').empty();
+            var flag = $("#send-email").data('flag');
+            var email = $('input[name="email"]').val();
+            $.post("/user/sendEmail",{'email':email,'flag':flag},function (res) {
+                if(!res.success){
+                    $('.ui.error.message').append("<ul class='list'><li class='li'></li></ul>");
+                    $('.li').append(res.message);
+                    $("#send-email").removeClass('disabled');
+                    $("#send-email").text('获取邮箱验证码!')
+                    return;
+                }else{
+                    $("#send-email").addClass('disabled');//成功后修改鼠标的样式，变为不可点击
+                    wait = parseInt(res.time_interval);
+                    timer = setInterval(Countdown, 1000);//定时器，发送成功后，禁用按钮，60恢复
+                }
+            })
+        }
+    });
+    function Countdown() {
+        wait = wait - 1;
+        if (wait == 0) {
+            $("#send-email").text("点我就送验证码！");
+            $("#send-email").removeClass('disabled');
+            wait = 60;
+            clearInterval(timer);
+            return;
+        }
+        $("#send-email").html("邮件已发送！<font color = 'red'>"+wait+"</font>秒");
+
+        // $("#mes-txt").css('display', 'block')
+        // $("#second-time").text(wait);
+    }
+    function help() {
+        $('.ui.longer.modal').modal('show');
+    }
+
+    $('.ui.basic.button').click(function () {
+        $('.ui.form').submit();
+        if ($('.ui.form').form('is valid')) {
+            var password=$('input[name="password"]').val();
+            var check_password=$('input[name="check_password"]').val();
+
+            $.post("/user/register", $('.ui.form').serialize(),
+                function (res) {
+                    console.log("2222222222")
+                    if (!res.success) {
+                        $('.ui.error.message').empty();
+                        $('.ui.form').removeClass('success');
+                        $('.ui.form').addClass('error');
+                        $('.verifyCode').val('')
+                        $('.ui.error.message').append("<ul class='list'><li class='li'></li></ul>");
+                        $('.li').append(res.message);
+                        return;
+                    } else {
+                        $('.ui.small.modal').modal({
+                            colsable:false,
+                            blurring: true,
+                            onApprove:function () {
+                                window.location.href = "/user/toLogin"
+                            },
+                            onDeny:function () {
+                                window.location.href="/"
+                            }
+                        }).modal('show');
+                    }
+                }, "json");
+        }
+    });
+
+</script>
+
+</body>
+
+</html>

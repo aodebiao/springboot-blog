@@ -1,0 +1,12 @@
+2020-03-25 08:51:38.142  INFO 2876 --- [restartedMain] com.loocc.BlogApplication                : Starting BlogApplication on loocc with PID 2876 (F:\CloudMusic\blog\target\classes started by loocc in F:\CloudMusic\blog)
+2020-03-25 08:51:38.155  INFO 2876 --- [restartedMain] com.loocc.BlogApplication                : The following profiles are active: pro
+2020-03-25 08:52:18.933 ERROR 2876 --- [restartedMain] .d.e.r.s.AbstractElasticsearchRepository : failed to load elasticsearch nodes : org.elasticsearch.client.transport.NoNodeAvailableException: None of the configured nodes are available: [{#transport#-1}{ZeYVtU20S4esEzOoFRQqgA}{xxx.xxx.xxx.xxx}{34.231.250.252:9300}]
+2020-03-25 08:52:19.441  WARN 2876 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-03-25 08:52:21.459  INFO 2876 --- [restartedMain] com.loocc.BlogApplication                : Started BlogApplication in 45.082 seconds (JVM running for 47.04)
+2020-03-25 08:53:20.583  INFO 2876 --- [http-nio-8080-exec-1] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-03-25 08:53:23.756  WARN 2876 --- [http-nio-8080-exec-1] org.hibernate.orm.deprecation            : HHH90000016: Found use of deprecated 'collection property' syntax in HQL/JPQL query [t.blogs.size]; use collection function syntax instead [size(t.blogs)].
+2020-03-25 08:53:23.920  WARN 2876 --- [http-nio-8080-exec-1] org.hibernate.orm.deprecation            : HHH90000016: Found use of deprecated 'collection property' syntax in HQL/JPQL query [t.blogs.size]; use collection function syntax instead [size(t.blogs)].
+2020-03-25 08:53:24.382  INFO 2876 --- [http-nio-8080-exec-1] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-03-25 08:53:24.383  INFO 2876 --- [http-nio-8080-exec-1] com.loocc.aspect.LogAspect               : Result ：index
+2020-03-25 08:54:18.263  INFO 29588 --- [restartedMain] com.loocc.BlogApplication                : Starting BlogApplication on loocc with PID 29588 (F:\CloudMusic\blog\target\classes started by loocc in F:\CloudMusic\blog)
+2020-03-25 08:54:18.266  INFO 29588 --- [restartedMain] com.loocc.BlogApplication                : The following profiles are active: pro

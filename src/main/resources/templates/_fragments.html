@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:replace="${title}">博客详情</title>
+    <link rel="icon" type="image/x-icon" href="../static/images/favicon.ico" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" href="../static/semantic-ui/css/semantic.min.css" th:href="@{/semantic-ui/css/semantic.min.css}">
+    <link rel="stylesheet" href="../static/css/typo.css" th:href="@{/css/typo.css}">
+    <link rel="stylesheet" href="../static/css/animate.css" th:href="@{/css/animate.css}">
+    <link rel="stylesheet" href="../static/lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
+    <link rel="stylesheet" href="../static/lib/tocbot/tocbot.css" th:href="@{/lib/tocbot/tocbot.css}">
+    <link rel="stylesheet" href="../static/css/me.css" th:href="@{/css/me.css}">
+
+
+</head>
+<body>
+
+
+<!--导航-->
+<nav th:fragment="menu(n)" class="ui attached segment m-padded-tb-mini m-shadow-small">
+    <div class="ui container">
+        <div class="ui  secondary stackable menu">
+            <a href="#" th:href="@{/}" class="item">
+                <img class="ui circular image swing" src="https://picsum.photos/50/50?image=1025"
+                     th:src="@{/images/avatar.jpg}" style="width: 60px !important;">
+            </a>
+            <a href="#" th:href="@{/}" class="m-item item m-mobile-hide " th:classappend="${n==1} ? 'active'"><i
+                    class="small home icon"></i>首页</a>
+            <a href="#" th:href="@{/types/-1}" class="m-item item m-mobile-hide" th:classappend="${n==2} ? 'active'"><i
+                    class="mini idea icon"></i>分类</a>
+            <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${n==3} ? 'active'"><i
+                    class="mini tags icon"></i>标签</a>
+            <a href="#" th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend="${n==4} ? 'active'"><i
+                    class="mini clone icon"></i>归档</a>
+
+            <a href="#" th:href="@{/about}" class="m-item item m-mobile-hide" th:classappend="${n==6} ? 'active'"><i
+                    class="mini info icon"></i>关于我</a>
+            <div class="m-item item m-mobile-hide">
+                <form name="search" action="#" th:action="@{/search}" method="post" target="_blank">
+                    <div class="ui icon transparent input m-margin-tb-tiny">
+                        <input type="text" name="query" placeholder="Search...." th:value="${query}">
+                        <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+                    </div>
+                </form>
+            </div>
+            <!--/*/  <th:block th:if="${session.currentUser == null}">/*/-->
+            <a href="#" th:href="@{/user/toLogin}" class="m-item item m-mobile-hide" id="login-btn">
+                <i class="mini street view icon"></i>登录
+            </a>
+            <a href="#" th:href="@{/user/toRegister}" class="m-item item m-mobile-hide" id="register-btn">
+                <i class="mini user plus icon"></i>注册
+            </a>
+            <!--/*/ </th:block>/*/-->
+            <div class="right m-item m-mobile-hide menu" th:unless="${session.currentUser == null}">
+                <div class="ui dropdown  item">
+                    <div class="text">
+                        <img class="ui avatar image" src="https://unsplash.it/100/100?image=1005"
+                             th:src="@{${session.currentUser.avatar}}">
+                        <span th:text="${session.currentUser.nickname}">com.loocc</span>
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="javascript:;" class="item" th:href="@{/user/goModify}">修改信息</a>
+                        <a th:if="${session.currentUser.openId != null}" href="javascript:;" class="item" onclick="unBind()">解绑QQ</a>
+                        <a th:if="${session.currentUser.openId == null}" href="javascript:;" class="item" th:href="@{/QQ/qqlogin}">绑定QQ</a>
+                        <a href="javascript:;" class="item" onclick="showPassword()">显示初始密码</a>
+                        <a href="#" th:href="@{/user/logout}" class="item">注销</a>
+                        <!--/*/ <th:block th:if="${session.currentUser.role != null && session.currentUser.role.name == 'admin'}">/*/-->
+                        <div class="ui divider"></div>
+                        <a href="#" th:href="@{/admin/}" class="item">进入后台</a>
+                        <!--/*/ </th:block>/*/-->
+                    </div>
+
+                </div>
+                <div class="ui small modal message" id="fragment-modal">
+                    <div class="header">
+                        系统提示
+                    </div>
+                    <div class="ui content message" id="show-message">
+
+                    </div>
+                    <div class="center actions">
+                        <div class="ui positive button">OK</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+    </div>
+    <a href="#" class="ui menu toggle white icon button m-right-top m-mobile-show">
+        <i class="sidebar icon"></i>
+    </a>
+
+
+</nav>
+
+
+<!--底部footer-->
+<footer th:fragment="footer" class="ui vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container">
+        <div class="ui  divided stackable grid m-mobile-hide">
+            <div class="five wide column">
+                <h4 class="ui  header m-text-thin m-text-spaced ">最新博客</h4>
+                <div id="newblog-container">
+                    <div class="ui  link list" th:fragment="newblogList">
+                        <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="item m-text-thin"
+                           th:each="blog : ${newblogs}" th:text="${blog.title}">测试数据</a>
+                        <!--/*-->
+                        <a href="#" class="item m-text-thin">测试数据</a>
+                        <a href="#" class="item m-text-thin">测试数据</a>
+                        <!--*/-->
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h4 class="ui  header m-text-thin m-text-spaced ">联系我</h4>
+                <div class="ui  link list">
+                    <a href="#" class="item m-text-thin" th:text="#{index.email}">Email：58@163.com</a>
+                    <a href="#" class="item m-text-thin" th:text="#{index.qq}">QQ：582829957</a>
+                </div>
+            </div>
+            <div class="seven wide column">
+                <h4 class="ui  header m-text-thin m-text-spaced ">Blog</h4>
+                <p class="m-text-thin m-text-spaced m-opacity-mini" th:text="#{index.blogDescription}">
+                    哦，还不知道写些啥，先就这样吧...</p>
+            </div>
+        </div>
+        <div class="ui  section divider"></div>
+        <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2016 - <span
+                th:text="${#dates.year(#dates.createNow())}">2017</span> Designed by zhouhongguang</p>
+        <p class="m-text-thin m-text-spaced m-opacity-tiny">
+            <a th:text="#{icp.beian}" href="http://beian.miit.gov.cn/" th:href="@{http://beian.miit.gov.cn/}"></a></p>
+
+        <a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=Tn98fHZ9enh9fw4-P2AtISM"
+           style="text-decoration:none;">联系我</a>
+    </div>
+
+</footer>
+
+<th:block th:fragment="script">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
+    <script src="../static/semantic-ui/js/semantic.min.js" th:src="@{/semantic-ui/js/semantic.min.js}"></script>
+    <!--    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+    <!--    代码高亮插件-->
+    <script src="../static/lib/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
+    <script src="../static/lib/tocbot/tocbot.min.js" th:src="@{/lib/tocbot/tocbot.min.js}"></script>
+    <script src="../static/lib/qrcode/qrcode.min.js" th:src="@{/lib/qrcode/qrcode.min.js}"></script>
+    <script src="../static/lib/waypoints/jquery.waypoints.min.js"
+            th:src="@{/lib/waypoints/jquery.waypoints.min.js}"></script>
+    <script src="../static/js/me.js" th:src="@{/js/me.js}"></script>
+    <script>
+        $('#newblog-container').load(/*[[@{/footer/newblog}]]*/"/footer/newblog");
+
+        $('.ui.dropdown').dropdown({
+            action: 'select' //不更改文本
+        });
+
+        function showPassword() {
+            $('#fragment-modal').modal({
+                onShow:function () {
+                    var message = "qq用户绑定成功的初始密码：<font color='red'>QWER111</font>"
+                    $('#show-message').html(message);
+                }
+            }).modal('show');
+        }
+
+        function unBind() {
+            $.get("/user/unBind",function (res) {
+                    if(res.success){
+                        $('#fragment-modal').modal({
+                            onShow:function () {
+                                $('#show-message').html(res.message);
+                            }
+                        }).modal('show')
+                    }else{
+                        $('#fragment-modal').modal({
+                            onShow:function () {
+                                $('#show-message').html('解除绑定失败');
+                            }
+                        }).modal('show')
+                    }
+            });
+        }
+
+    </script>
+</th:block>
+
+</body>
+</html>

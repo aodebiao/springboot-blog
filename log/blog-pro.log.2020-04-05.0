@@ -1,0 +1,63 @@
+2020-04-05 14:25:37.845  INFO 18880 --- [restartedMain] com.loocc.BlogApplication                : Starting BlogApplication on loocc with PID 18880 (F:\CloudMusic\blog\target\classes started by loocc in F:\CloudMusic\blog)
+2020-04-05 14:25:37.859  INFO 18880 --- [restartedMain] com.loocc.BlogApplication                : The following profiles are active: pro
+2020-04-05 14:26:02.837  WARN 18880 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-04-05 14:26:04.569  INFO 18880 --- [restartedMain] com.loocc.BlogApplication                : Started BlogApplication in 28.788 seconds (JVM running for 32.54)
+2020-04-05 14:26:13.028  INFO 18880 --- [http-nio-8080-exec-1] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:26:14.296  WARN 18880 --- [http-nio-8080-exec-1] org.hibernate.orm.deprecation            : HHH90000016: Found use of deprecated 'collection property' syntax in HQL/JPQL query [t.blogs.size]; use collection function syntax instead [size(t.blogs)].
+2020-04-05 14:26:14.402  WARN 18880 --- [http-nio-8080-exec-1] org.hibernate.orm.deprecation            : HHH90000016: Found use of deprecated 'collection property' syntax in HQL/JPQL query [t.blogs.size]; use collection function syntax instead [size(t.blogs)].
+2020-04-05 14:26:14.552  INFO 18880 --- [http-nio-8080-exec-1] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:26:14.552  INFO 18880 --- [http-nio-8080-exec-1] com.loocc.aspect.LogAspect               : Result ：index
+2020-04-05 14:26:25.018  INFO 18880 --- [http-nio-8080-exec-3] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:26:26.258  INFO 18880 --- [http-nio-8080-exec-3] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:26:26.258  INFO 18880 --- [http-nio-8080-exec-3] com.loocc.aspect.LogAspect               : Result ：index
+2020-04-05 14:26:27.704  INFO 18880 --- [http-nio-8080-exec-10] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:26:28.584  INFO 18880 --- [http-nio-8080-exec-10] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:26:28.584  INFO 18880 --- [http-nio-8080-exec-10] com.loocc.aspect.LogAspect               : Result ：_fragments :: newblogList
+2020-04-05 14:26:29.977  INFO 18880 --- [http-nio-8080-exec-9] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:26:29.981  INFO 18880 --- [http-nio-8080-exec-9] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:26:29.981  INFO 18880 --- [http-nio-8080-exec-9] com.loocc.aspect.LogAspect               : Result ：login
+2020-04-05 14:26:30.127  INFO 18880 --- [http-nio-8080-exec-1] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:26:30.331  INFO 18880 --- [http-nio-8080-exec-8] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:26:30.331  INFO 18880 --- [http-nio-8080-exec-8] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:26:30.331  INFO 18880 --- [http-nio-8080-exec-8] com.loocc.aspect.LogAspect               : Result ：login
+2020-04-05 14:26:30.795  INFO 18880 --- [http-nio-8080-exec-1] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:26:30.795  INFO 18880 --- [http-nio-8080-exec-1] com.loocc.aspect.LogAspect               : Result ：null
+2020-04-05 14:26:33.910  INFO 18880 --- [http-nio-8080-exec-4] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:26:33.911  INFO 18880 --- [http-nio-8080-exec-4] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:26:33.911  INFO 18880 --- [http-nio-8080-exec-4] com.loocc.aspect.LogAspect               : Result ：register
+2020-04-05 14:26:34.164  INFO 18880 --- [http-nio-8080-exec-10] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:26:34.164  INFO 18880 --- [http-nio-8080-exec-10] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:26:34.164  INFO 18880 --- [http-nio-8080-exec-10] com.loocc.aspect.LogAspect               : Result ：login
+2020-04-05 14:26:44.336  INFO 18880 --- [http-nio-8080-exec-5] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:26:44.337  INFO 18880 --- [http-nio-8080-exec-5] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:26:44.338  INFO 18880 --- [http-nio-8080-exec-5] com.loocc.aspect.LogAspect               : Result ：login
+2020-04-05 14:26:44.398  INFO 18880 --- [http-nio-8080-exec-4] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:26:44.415  INFO 18880 --- [http-nio-8080-exec-4] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:26:44.416  INFO 18880 --- [http-nio-8080-exec-4] com.loocc.aspect.LogAspect               : Result ：null
+2020-04-05 14:26:44.440  INFO 18880 --- [http-nio-8080-exec-7] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:26:44.440  INFO 18880 --- [http-nio-8080-exec-7] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:26:44.440  INFO 18880 --- [http-nio-8080-exec-7] com.loocc.aspect.LogAspect               : Result ：login
+2020-04-05 14:28:02.818  INFO 18880 --- [http-nio-8080-exec-5] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:28:02.818  INFO 18880 --- [http-nio-8080-exec-5] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:28:02.818  INFO 18880 --- [http-nio-8080-exec-5] com.loocc.aspect.LogAspect               : Result ：login
+2020-04-05 14:28:02.886  INFO 18880 --- [http-nio-8080-exec-2] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:28:02.935  INFO 18880 --- [http-nio-8080-exec-2] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:28:02.935  INFO 18880 --- [http-nio-8080-exec-2] com.loocc.aspect.LogAspect               : Result ：null
+2020-04-05 14:28:03.037  INFO 18880 --- [http-nio-8080-exec-10] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:28:03.038  INFO 18880 --- [http-nio-8080-exec-10] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:28:03.038  INFO 18880 --- [http-nio-8080-exec-10] com.loocc.aspect.LogAspect               : Result ：login
+2020-04-05 14:28:19.142  INFO 18880 --- [http-nio-8080-exec-9] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:28:19.142  INFO 18880 --- [http-nio-8080-exec-9] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:28:19.142  INFO 18880 --- [http-nio-8080-exec-9] com.loocc.aspect.LogAspect               : Result ：register
+2020-04-05 14:28:19.544  INFO 18880 --- [http-nio-8080-exec-7] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:28:19.545  INFO 18880 --- [http-nio-8080-exec-7] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:28:19.545  INFO 18880 --- [http-nio-8080-exec-7] com.loocc.aspect.LogAspect               : Result ：login
+2020-04-05 14:28:25.626  INFO 18880 --- [http-nio-8080-exec-8] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:28:25.626  INFO 18880 --- [http-nio-8080-exec-8] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:28:25.626  INFO 18880 --- [http-nio-8080-exec-8] com.loocc.aspect.LogAspect               : Result ：login
+2020-04-05 14:28:25.723  INFO 18880 --- [http-nio-8080-exec-3] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:28:25.737  INFO 18880 --- [http-nio-8080-exec-3] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:28:25.737  INFO 18880 --- [http-nio-8080-exec-3] com.loocc.aspect.LogAspect               : Result ：null
+2020-04-05 14:28:25.828  INFO 18880 --- [http-nio-8080-exec-6] com.loocc.aspect.LogAspect               : ------------doBefore------------
+2020-04-05 14:28:25.828  INFO 18880 --- [http-nio-8080-exec-6] com.loocc.aspect.LogAspect               : -------------doAfter----------
+2020-04-05 14:28:25.828  INFO 18880 --- [http-nio-8080-exec-6] com.loocc.aspect.LogAspect               : Result ：login

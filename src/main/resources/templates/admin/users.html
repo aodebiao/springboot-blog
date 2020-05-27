@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/_fragments :: head(~{::title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客管理</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css" th:href="@{/css/me.css}">
+</head>
+<body>
+
+<!--导航-->
+<nav th:replace="admin/_fragments :: menu(4)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header item">管理后台</h2>
+            <a href="#" class="active m-item item m-mobile-hide"><i class="mini home icon"></i>博客</a>
+            <a href="#" class=" m-item item m-mobile-hide"><i class="mini idea icon"></i>分类</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>用户管理</a>
+
+            <div class="right m-item m-mobile-hide menu">
+                <div class="ui dropdown  item">
+                    <div class="text">
+                        <img class="ui avatar image" src="https://unsplash.it/100/100?image=1005">
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" class="item">注销</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+<div class="ui attached pointing menu">
+    <div class="ui container">
+        <div class="right menu">
+            <a href="#" th:href="@{/admin/blogs/input}" class=" item">发布</a>
+            <a href="#" th:href="@{/admin/blogs}" class="teal active item">列表</a>
+        </div>
+    </div>
+</div>
+
+<!--中间内容-->
+<div class="m-container-small m-padded-tb-big">
+    <div class="ui container">
+        <div class="ui basic secondary segment form">
+            <input type="hidden" name="page">
+            <div class="inline fields">
+                <div class="field">
+                    <div class="ui labeled action input">
+                        <div class="field">
+                            <input type="text" name="uname" placeholder="标题">
+                        </div>
+                        <button class="ui right labeled icon button clear_btn"><i class="right eraser icon"></i><font
+                                style="vertical-align: inherit;"><font style="vertical-align: inherit;">清空</font></font>
+                        </button>
+                    </div>
+
+                </div>
+                <div class="field">
+                    <button type="button" id="search-btn" class="ui mini teal basic button" onclick="searchUser()"><i
+                            class="search icon"></i>搜索
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="table-container">
+            <table th:fragment="userList" class="ui table basic compact teal " style="text-align: center !important;">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>用户名</th>
+                    <th>昵称</th>
+                    <th>性别</th>
+                    <th>邮箱</th>
+                    <th>角色</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user,itemStat : ${page.content}">
+                    <td th:text="${itemStat.count}">1</td>
+                    <td th:text="${user.username}">com.loocc</td>
+                    <td th:text="${user.nickname}">铁柱</td>
+                    <td th:text="${user.gender} == 1 ? '男':'女'">女</td>
+                    <td th:text="${user.email}">我是邮箱</td>
+                    <td th:text="${user.role.name} == 'user'?'普通用户':(${user.role.name} =='vuser'?'特殊用户':'超级用户')">认知升级
+                    </td>
+                    <td th:text="${#dates.format(user.createTime,'yyyy-MM-dd')}">草稿</td>
+
+                    <td>
+                        <div class="ui inline dropdown">
+                            <div class="text">选择角色</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <div class="item"
+                                     th:text="${role.name} == 'user'?'普通用户':(${role.name} == 'vuser'?'特殊用户':'超级用户')"
+                                     th:attr="data-rolename=${role.name}" th:data-value="${role.name}"
+                                     th:each="role :${roles}">
+                                    Edit
+                                </div>
+                                <!--/*-->
+                                <div class="item">Remove</div>
+                                <div class="item">Hide</div>
+                                <!--*/-->
+                            </div>
+                        </div>
+
+                        <a href="javascript:;" data-uid="" th:attr="data-uid=${user.id}"
+                           class="ui mini teal basic button"
+                           onclick="modifyRole(this)">
+                            更改权限</a>
+                        <a href="javascript:;" onclick="modifyStatus(this)" data-uid="" th:attr="data-uid=${user.id}"
+                           class="ui mini red basic button" th:text="${user.status} == false?'解除':'禁言'">禁言</a>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="9" style="text-align: left !important;">
+                        <div class="ui mini pagination menu" th:if="${page.totalPages}>1">
+                            <a onclick="page(this)" th:attr="data-page=${page.number}-1" class="item"
+                               th:unless="${page.first}">上一页</a>
+                            <a onclick="page(this)" th:attr="data-page=${page.number}+1" class=" item"
+                               th:unless="${page.last}">下一页</a>
+                        </div>
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+
+            <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+                <i class="close icon"></i>
+                <div class="header">提示：</div>
+                <p th:text="${message}">恭喜，操作成功！</p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<br>
+<br>
+<!--底部footer-->
+<footer th:replace="admin/_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container">
+        <div class="ui inverted divided stackable grid">
+            <div class="three wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img src="../../static/images/wechat.jpg" th:src="@{/images/wechat.jpg}"
+                             class="ui rounded image" alt=""
+                             style="width: 110px">
+                    </div>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">最新博客</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item m-text-thin">测试数据</a>
+                    <a href="#" class="item m-text-thin">测试数据</a>
+                    <a href="#" class="item m-text-thin">测试数据</a>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">联系我</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item m-text-thin">Email：582829957.com</a>
+                    <a href="#" class="item m-text-thin">QQ：582829957</a>
+                </div>
+            </div>
+            <div class="seven wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">Blog</h4>
+                <p class="m-text-thin m-text-spaced m-opacity-mini">这是我的个人博客、会分享关于编程、写作、思考相关的任何内容，希望可以给来到这儿的人有所帮助...</p>
+            </div>
+        </div>
+        <div class="ui inverted section divider"></div>
+        <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2016 - 2017 com.loocc Designed by com.loocc</p>
+    </div>
+
+</footer>
+<!--/*/<th:block th:replace="admin/_fragments :: script">/*/-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('.ui.dropdown').dropdown({
+        on: 'hover',
+    });
+
+    //消息提示关闭初始化
+    $('.message .close')
+        .on('click', function () {
+            $(this)
+                .closest('.message')
+                .transition('fade');
+        });
+
+    $('.clear_btn').click(function () {
+        $("[name='uname']").val('')
+    });
+
+    function modifyStatus(obj) {
+        var flag = confirm("确定要修改【" + $(obj).parent().parent().find("td").eq(1).text() + "】用户的状态嘛?");
+        if (flag) {
+            $("#table-container").load("/admin/modifyStatus", {
+                userId: $(obj).data("uid")
+            }, function () {
+                //不加这个下拉框点了一了一次后就无法再次点击
+                $('.ui.dropdown').dropdown({
+                    on: 'hover',
+                });
+                //按钮的字不知道为什么不改变，所以加上这个重新加载页面
+                window.location.reload();
+            });
+        }
+    }
+
+
+    function modifyRole(obj) {
+        // var rolename = $(obj).parent().find(".ui.dropdown").dropdown("get value")
+        // alert(rolename)
+        var mes = $('.ui.inline.dropdown').dropdown('get value');
+        var mes1 = mes.toString().replace(',','');
+        // alert(mes1)
+        if(mes1==''){
+            alert('请先选择角色')
+            return;
+        }
+        var flag = confirm("确定要修改【" + $(obj).parent().parent().find("td").eq(1).text() + "】用户的角色嘛?");
+        if (flag) {
+            $("#table-container").load("/admin/modifyRole", {
+                userId: $(obj).data("uid"), roleName: $(obj).parent().find(".ui.dropdown").dropdown("get value")
+            }, function () {
+                $('.ui.dropdown').dropdown({
+                    on: 'hover',
+                });
+            });
+        }
+    };
+
+    function searchUser() {
+        var username = $("[name='uname']").val();
+        $("#table-container").load("/admin/searchUser", {
+            username: username
+        }, function () {
+            $('.ui.dropdown').dropdown({
+                on: 'hover',
+            });
+        });
+
+    }
+</script>
+</body>
+</html>

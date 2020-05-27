@@ -1,0 +1,13 @@
+spring:
+  thymeleaf:
+    mode: HTML
+  profiles:
+    active: pro
+  messages:
+#   默认是在messages文件夹下，用来指定一些信息，包括国际化和一些固定的信息，比如联系方式和个人说明
+    basename: i18n/messages
+
+girl.avatar: /images/girlAvatar.png
+boy.avatar: /images/boyAvatar.png
+email.fromAddr: z582829957@163.com
+elasticsearch.host: 102.118.119.176

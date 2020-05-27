@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Go|登录</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="../../static/images/favicon.ico" th:href="@{/mages/favicon.ico}">
+
+    <link rel="stylesheet" type="text/css" href="../../static/semantic-ui/css/semantic.min.css"
+          th:href="@{/semantic-ui/css/semantic.min.css}">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="../../static/semantic-ui/js/semantic.min.js" th:src="@{/semantic-ui/js/semantic.min.js}"></script>
+</head>
+
+
+<body>
+
+<div class="ui container">
+    <div class="ui container pulse">
+        <div class="ui stackable grid">
+            <div class="five wide column"></div>
+
+            <div class="six wide column" style="margin-top: 10%;">
+                <h2 style="text-align: center;">登录</h2>
+                <div class="ui section divider"></div>
+
+                <div class="ui centered card" style="width: 100%;height: 85%;">
+                    <img src="../../static/images/head_login.jpg" th:src="@{/images/head_login.jpg}" class="" alt=""
+                         style="width: 100%;height: 60%;">
+                    <div class="content" style="height: 55%;">
+                        <form class="ui form" onsubmit="return false;">
+                            <div class="field" style="margin-bottom: 20px;">
+                                <div class="ui left icon input">
+                                    <input type="text" class="" name="username" placeholder="用户名不是昵称！" onkeydown="login_key(event)"
+                                           autofocus="autofocus">
+                                    <i class="left user icon"></i>
+                                </div>
+                            </div>
+                            <div class="field" style="margin-bottom: 15px;">
+                                <div class="ui left icon input">
+                                    <input type="password" class="" name="password" placeholder="输入密码！" onkeydown="login_key(event)">
+                                    <i class="left lock icon"></i>
+                                </div>
+                            </div>
+                            <div class="ui error message"></div>
+                            <div style="text-align: center;">
+                                <button class="ui basic button" type="button" onclick="login_btn()" onkeydown="login_key(event)">登录</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="five wide column"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.ui.form').form({
+        fields: {
+            username: {
+                identifier: 'username',
+                rules: [{
+                    type: 'regExp[/^[\u4e00-\u9fa5]{2,5}$/]',
+                    prompt: '用户名格式不对！'
+                }]
+            },
+            password: {
+                identifier: 'password',
+                rules: [{
+                    type: 'regExp[/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,10}$/]',
+                    prompt: '密码格式不对！'
+                }]
+            }
+        }
+    })
+
+    function login_btn() {
+        $('.ui.basic.button').submit();
+        if ($('.ui.form').form('is valid')) {
+            $.post("/admin/login", {
+                "username": $('input:text[name="username"]').val(),
+                "password": $('input:password[name="password"]').val()},
+                function (res) {
+                console.log("2222222222")
+                if (!res.success) {
+                    console.log(res.message)
+                    $('.ui.error.message').empty();
+                    $('.ui.form').removeClass('success');
+                    $('.ui.error.message').append("<ul class='list'><li class='li'></li></ul>");
+                    $('.li').append(res.message)
+                } else {
+                    console.log("11111111")
+                    window.location.href = "/admin/index"
+                }
+            },"json");
+        }
+    }
+
+    function login_key(event) {
+        if (event.keyCode == 13) {
+           login_btn()
+            event.preventDefault();//阻止默认行为，不然好像触发按钮的点击事件
+        }
+    }
+
+
+</script>
+
+</body>
+
+</html>

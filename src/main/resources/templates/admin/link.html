@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/_fragments :: head(~{::title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>标签管理</title>
+    <link rel="icon" type="image/x-icon" href="../../static/images/favicon.ico" th:href="@{/mages/favicon.ico}">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css" th:href="@{/css/me.css}">
+</head>
+<body>
+
+<!--导航-->
+<nav th:replace="admin/_fragments :: menu(5)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header item">管理后台</h2>
+            <a href="#" class="active m-item item m-mobile-hide"><i class="mini home icon"></i>博客</a>
+            <a href="#" class=" m-item item m-mobile-hide"><i class="mini idea icon"></i>分类</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
+            <div class="right m-item m-mobile-hide menu">
+                <div class="ui dropdown  item">
+                    <div class="text">
+                        <img class="ui avatar image" src="https://unsplash.it/100/100?image=1005">
+                        loocc
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" class="item">注销</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+<div class="ui attached pointing menu">
+    <div class="ui container">
+        <div class="right menu">
+            <a href="#" th:href="@{/admin/link}" class="teal active item">列表</a>
+        </div>
+    </div>
+</div>
+
+<!--中间内容-->
+<div class="m-container-small m-padded-tb-big">
+    <div class="ui container">
+        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <div class="header">提示：</div>
+            <p th:text="${message}">恭喜，操作成功！</p>
+        </div>
+        <table class="ui basic compact table" th:fragment="linkList">
+            <thead>
+            <tr>
+                <th></th>
+                <th>链接名称</th>
+                <th>链接地址</th>
+                <th>添加时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="link,iterStat : ${linkList.content}">
+                <td th:text="${iterStat.count}">1</td>
+                <input type="hidden" value="${link.id}">
+                <td th:text="${link.linkName}">今日营业中</td>
+                <td th:text="${link.linkUrl}">http://www.zhguang.xyz</td>
+                <td th:text="${#dates.format(link.addDate,'yyyy-MM-dd HH:mm:ss')}">http://www.zhguang.xyz</td>
+                <td>
+                    <a href="#" th:attr="data-linkid=${link.id}" onclick="edit(this)"
+                       class="ui edit mini teal basic button">编辑</a>
+                    <a href="#" th:attr="data-linkid=${link.id},data-linkname=${link.linkName}"
+                       onclick="deleteLink(this)" class="ui mini red basic button">删除</a>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="6">
+                    <div class="ui mini pagination menu" th:if="${linkList.totalPages}>1">
+                        <a th:href="@{/admin/link(page=${page.number}-1)}" class="  item"
+                           th:unless="${page.first}">上一页</a>
+                        <a th:href="@{/admin/link(page=${page.number}+1)}" class=" item"
+                           th:unless="${page.last}">下一页</a>
+                    </div>
+                    <a href="#" onclick="add(this)" class="ui mini right floated teal basic button">新增</a>
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<!--编辑模态框-->
+<div class="ui edit small modal">
+    <i class="inverted close icon"></i>
+    <div class="header">
+        修改链接
+    </div>
+    <div class="ui content">
+        <form class="ui form" id="link-form">
+            <div class="ui left icon input" style="width: 100%;margin-bottom: 20px;">
+                <i class="address book icon"></i>
+                <input type="hidden" name="linkId" class="link id">
+                <input type="text" class="link name" name="linkName" placeholder="输入链接名称">
+
+            </div>
+            <div class="divider"></div>
+            <div class="ui left icon input" style="width: 100%;">
+                <i class="linkify icon"></i>
+                <input type="text" class="link url" name="linkUrl" placeholder="输入链接地址">
+            </div>
+            <div class="ui error message"></div>
+
+        </form>
+    </div>
+    <div class="center actions">
+        <div class="ui negative button">取消</div>
+        <div class="ui positive button">确定</div>
+    </div>
+</div>
+
+
+<div class="ui small modal" id="message">
+    <i class="close icon"></i>
+    <div class="header">
+        提示
+    </div>
+    <div class="ui content alert message">
+        更新成功
+    </div>
+    <div class="center actions">
+        <div class="ui negative clear reset button">取消</div>
+        <div class="ui positive clear reset button">确定</div>
+    </div>
+</div>
+
+<br>
+<br>
+<!--底部footer-->
+<footer th:replace="admin/_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container">
+        <div class="ui inverted divided stackable grid">
+            <div class="three wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img src="../../static/images/wechat.jpg" th:src="@{/images/wechat.jpg}"
+                             class="ui rounded image" alt="" style="width: 110px">
+                    </div>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">最新博客</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item m-text-thin">测试数据</a>
+                    <a href="#" class="item m-text-thin">测试数据</a>
+                    <a href="#" class="item m-text-thin">测试数据</a>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">联系我</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item m-text-thin">Email：zhouhongguang@163.com</a>
+                    <a href="#" class="item m-text-thin">QQ：865729312</a>
+                </div>
+            </div>
+            <div class="seven wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">Blog</h4>
+                <p class="m-text-thin m-text-spaced m-opacity-mini">这是我的个人博客、会分享关于编程、写作、思考相关的任何内容，希望可以给来到这儿的人有所帮助...</p>
+            </div>
+        </div>
+        <div class="ui inverted section divider"></div>
+        <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2016 - 2017 zhouhongguang Designed by
+            zhouhongguang</p>
+    </div>
+
+</footer>
+<!--/*/<th:block th:replace="_fragments :: script">/*/-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+<script>
+    $('.ui.form').form({
+        fields: {
+            linkName: {
+                identifier: 'linkName',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: '请输入链接名称'
+                    }
+                ]
+            },
+            linkUrl: {
+                identifier: 'linkUrl',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: '请输入链接地址'
+                    }
+                ]
+            }
+        }
+    });
+
+    function edit(obj) {
+        var id = $(obj).data('linkid');
+        $.ajax({
+            url: '/admin/link/edit?id=' + id,
+            type: 'get',
+            success: function (res) {
+                if (res.success) {
+                    $('.ui.edit.modal').modal({
+                        closable: false,
+                        onShow: function () {
+                            $('.link.id').val(res.link.id);
+                            $('.link.name').val(res.link.linkName);
+                            $('.link.url').val(res.link.linkUrl);
+                        },
+                        onApprove: function () {
+                            var linkName = $('input:text[name="linkName"]').val();
+                            var linkUrl = $('input:text[name="linkUrl"]').val();
+                            var id = $('input:hidden[name="linkId"]').val();
+                            $.post("/admin/link/save", {
+                                "id": id,
+                                "linkName": linkName,
+                                "linkUrl": linkUrl
+                            }, function (res) {
+                                if (res.success) {
+                                    alert("操作成功！")
+                                    window.location.reload();
+                                } else {
+                                    alert("操作失败！")
+                                }
+
+                            });
+                        }
+                    }).modal('show');
+                } else {
+                    $('#message').modal('show')
+                }
+            },
+        })
+    }
+
+    function deleteLink(obj) {
+        var id = $(obj).data('linkid');
+        $('#message').modal({
+            onShow: function () {
+                $('.ui.message').html("确定要删除名为<font color='red'>" + $(obj).data('linkname') + "</font>的链接嘛")
+            },
+            onApprove: function () {
+                $.ajax({
+                    url: "/admin/link/delete?id=" + id,
+                    type: 'delete',
+                    success: function (res) {
+                        if (res.success) {
+                            alert(res.message)
+                            window.location.reload();
+                        } else {
+                            alert(res.message)
+                        }
+                    }
+                })
+            }
+        }).modal('show');
+
+
+    }
+
+    function add() {
+        $('.ui.edit.modal').modal({
+            onApprove: function () {
+                console.log('111111')
+                $('#link-form').submit();
+                if ($('.ui.form').form('is valid')) {
+                    $.post(
+                        "/admin/link/save",
+                        {
+                            "linkName": $('input:text[name="linkName"]').val(),
+                            "linkUrl":$('input:text[name="linkUrl"]').val()
+                        },
+                       function (res) {
+                            if(res.success){
+                                alert(res.message);
+                                window.location.reload();
+                            }else {
+                                alert(res.message);
+                            }
+                    });
+                }
+                return $('.ui.form').form('is valid');
+
+
+            },
+            onHidden: function () {
+                // $('.ui.error.message').css('display','none');
+                $('.ui.error.message').html('')
+            }
+
+        }).modal('show')
+
+        // var linkName = $('input:text[name="linkName"]').val();
+        // var linkUrl = $('input:text[name="linkUrl"]').val();
+        // $.post("/admin/link/save", {"linkName": linkName, "linkUrl": linkUrl}, function (res) {
+        //     if (res.success) {
+        //         alert("操作成功！")
+        //         window.location.reload();
+        //     } else {
+        //         alert("操作失败！")
+        //     }
+        //
+        // });
+    }
+
+
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
+
+    //消息提示关闭初始化
+    $('.message .close')
+        .on('click', function () {
+            $(this)
+                .closest('.message')
+                .transition('fade');
+        });
+</script>
+</body>
+</html>
