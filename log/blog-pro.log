@@ -1,5 +1,0 @@
-2020-04-17 16:19:28.102  INFO 28368 --- [main] com.loocc.BlogApplication                : Starting BlogApplication on loocc with PID 28368 (F:\CloudMusic\blog\target\classes started by loocc in F:\CloudMusic\blog)
-2020-04-17 16:19:28.109  INFO 28368 --- [main] com.loocc.BlogApplication                : The following profiles are active: pro
-2020-04-17 16:20:06.102  WARN 28368 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2020-04-17 16:20:09.811  WARN 28368 --- [main] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
-2020-04-17 16:20:09.957  INFO 28368 --- [main] com.loocc.BlogApplication                : Started BlogApplication in 43.893 seconds (JVM running for 52.488)
